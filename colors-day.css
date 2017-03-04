@@ -1,0 +1,16 @@
+body {
+	background: #FFF;
+	color: #000;
+}
+#panel li a.active {
+background-color:#CEC;
+}
+#panel li a:hover:not(.active) {
+background-color:#DFD;
+}
+#panel {
+background-color:#EEE;
+}
+#content .block {
+border: 1px solid #333;
+}

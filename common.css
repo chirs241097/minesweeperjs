@@ -1,0 +1,42 @@
+.CTitle {
+	font-family: 'FreeMono', 'Courier New', Courier, monospace;
+}
+.TText {
+	font-family: 'FreeMono', 'Courier New', Courier, monospace;
+}
+a:link { 
+color:#1194FF; 
+text-decoration:none; 
+}
+a:visited { 
+color:#20ACFF; 
+text-decoration:none; 
+}
+a:hover { 
+color:#3FBFFF; 
+text-decoration:none; 
+}
+a:active { 
+color:#CCCCFF; 
+text-decoration:none; 
+}
+div.comment{
+	border:1px solid #CCC;
+	margin:1em;
+}
+div.author{
+	text-align:right;
+	padding-right:0.5em;
+	padding-bottom:0.5em;
+}
+div.floatingl {
+	left: 0px;
+	bottom: -10px;
+	position: fixed;
+}
+div.floatingr {
+	right: 0px;
+	bottom: -10px;
+	position: fixed;
+	transform: rotateY(180deg);
+}

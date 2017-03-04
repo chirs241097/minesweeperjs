@@ -1,0 +1,48 @@
+var fold=true;
+function setupevents()
+{
+	window.ontouchstart=function(e)
+	{
+		x1=e.touches[0].screenX;
+		y1=e.touches[0].screenY;
+	}
+	window.ontouchmove=function(e)
+	{
+		x2=e.touches[0].screenX;
+		y2=e.touches[0].screenY;
+	}
+	window.ontouchend=function(e)
+	{
+		x2=e.changedTouches[0].screenX;
+		y2=e.changedTouches[0].screenY;
+		if(Math.abs(x1-x2)<20&&Math.abs(y1-y2)<20)
+		{
+			if(x2<document.getElementById("panel").getClientRects()[0].right&&fold)
+			{document.getElementById("panel").style.left="0";fold=false;}
+			if(x2>document.getElementById("panel").getClientRects()[0].right&&!fold)
+			{document.getElementById("panel").style.left="-15em";fold=true;}
+		}
+		if(x2-x1>window.innerWidth*0.2)
+		{document.getElementById("panel").style.left="0";fold=false;}
+		if(x1-x2>window.innerWidth*0.2)
+		{document.getElementById("panel").style.left="-15em";fold=true;}
+	}
+	document.getElementById("panel").onmouseenter=function()
+	{
+		if(fold)
+		{document.getElementById("panel").style.left="0";fold=false;}
+	}
+	document.getElementById("panel").onmouseleave=function()
+	{
+		if(!fold)
+		{document.getElementById("panel").style.left="-15em";fold=true;}
+	} 
+}
+function unsetevents()
+{
+	window.ontouchstart=undefined;
+	window.ontouchmove=undefined;
+	window.ontouchend=undefined;
+	document.getElementById("panel").onmouseenter=undefined;
+	document.getElementById("panel").onmouseleave=undefined;
+}

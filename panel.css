@@ -1,0 +1,51 @@
+#panel ul{
+padding:0;
+list-style-type:none;
+}
+#panel li h1 {
+position:relative;
+left:-0.6em;
+margin:0;
+font-weight:normal;
+}
+#panel li h3 {
+position:relative;
+left:-0.3em;
+margin:0;
+font-weight:normal;
+}
+#panel li {
+display:block;
+padding-left:1.5em;
+padding-top:0.5em;
+padding-bottom:0.5em;
+}
+#panel {
+width: 16em;
+height:100%;
+position:fixed;
+top:0;
+left:0;
+transition:left 0.4s;
+z-index:999;
+}
+#panel .themesw {
+text-align:center;
+padding-top:0.5em;
+}
+#content {
+margin-left: 16em;
+}
+#content p{text-indent:2em;}
+#content h2{font-weight:normal;}
+#content h3{font-weight:normal;}
+#content .block {
+display: none;
+padding: 1em;
+}
+@media all
+{
+	#panel{left:-15em;}
+	#content{margin-left:1em;}
+	#msgform{width:auto;margin:1em;}
+}

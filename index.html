@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<title>Chrisoft::Minesweeper</title>
+<link rel="icon" href="../favicon.png">
+<link rel="stylesheet" type="text/css" href="common.css">
+<link rel="stylesheet" type="text/css" href="panel.css">
+<script type="text/javascript" src="panel.js"></script>
+<script type="text/javascript" src="minesweeper.js"></script>
+<style>
+div#OptionsContainer
+{
+	text-align:center;
+	margin:auto;
+}
+button
+{
+	border:none;
+	color:white;
+	padding:0.5em 2em;
+	text-align:center;
+	background-color:#4A4;
+	transition-duration: 0.2s;
+}
+button:hover
+{
+	background-color:#6C6;
+}
+button.off
+{
+	background-color:#A44;
+}
+button.off:hover
+{
+	background-color:#C66;
+}
+button.disabled:hover, button.disabled
+{
+	background-color:#888;
+}
+div#containerDiv
+{
+	margin:auto;
+	position:relative;
+}
+div.clickable
+{
+	position:absolute;
+	text-align:center;
+	border:1px black solid;
+}
+div.overlay
+{
+	pointer-events:none;
+	display:table;
+	position:absolute;
+	text-align:center;
+}
+div.trans
+{
+	transition:100ms;
+}
+div.modal
+{
+	background-color:rgba(0,0,0,0.6);
+	color:#FFF;
+	width:60%;
+	min-height:40%;
+	position:absolute;
+	left:50%;
+	top:50%;
+	transform:translate(-50%,-50%);
+	transition:100ms;
+	font-size:1.4em;
+	padding:1em;
+}
+@media(max-width:768px)
+{
+	div.modal{width:90%;min-height:60%;font-size:1.2em;}
+}
+div.mine{background-color:rgba(255,192,0,0.6);}
+div.detonated{background-color:rgba(255,0,0,0.6);}
+div.flag{background-color:rgba(0,255,0,0.6);}
+div.flagw{background-color:rgba(255,0,255,0.6);}
+div.dug{background-color:rgba(160,160,192,0.8);}
+div.normal{background-color:rgba(128,128,160,0.6);}
+.one{color:#00f;}
+.two{color:#008000;}
+.three{color:#f00;}
+.four{color:#000080;}
+.five{color:#800000;}
+.six{color:#008080;}
+.seven{color:#000;}
+.eight{color:#7e7e7e;}
+</style>
+</head>
+<body onload="init();">
+<script type="text/javascript" language="javascript">
+var thm=document.cookie.replace(new RegExp("(?:(?:^|.*;\\s*)thm\\s*\\=\\s*([^;]*).*$)|^.*$"),"$1");
+link = document.createElement( "link" );
+switch(thm)
+{
+	case "day":
+		link.href = "colors-day.css";
+	break;
+	case "night":
+		link.href = "colors-night.css";
+	break;
+	case "auto":
+	default:
+		var c=new Date();
+		if(c.getHours()>=6&&c.getHours()<18)
+		{link.href = "colors-day.css";}
+		else
+		{link.href = "colors-night.css";}
+	break;
+}
+link.type="text/css";
+link.rel="stylesheet";
+document.getElementsByTagName("head")[0].appendChild(link);
+</script>
+<div id="panel" class="TText">
+	<ul id="panellist">
+		<li><a href="/"><h1>Chrisoft</h1></a></li>
+		<li><h3>Minesweeper</h3></li>
+		<li>
+		Difficulty:
+		<select id="bsize">
+			<option value="1">Easy</option>
+			<option value="2">Normal</option>
+			<option value="3">Hard</option>
+		</select>
+		</li>
+		<li>Multimine:
+		<button id="multim" onclick="multiminetoggle();" class="off">Off</button>
+		</li>
+		<li>Effects:
+		<button id="efx" onclick="efxtoggle();">On</button>
+		</li>
+		<li>Sounds:
+		<button id="sfx" onclick="sfxtoggle();">On</button>
+		</li>
+		<li><a href="javascript:void(0);" onclick="document.getElementById('help').style.opacity='1';document.getElementById('help').style.zIndex='1000';">Help</a></li>
+		<li>version: 0.8.7+b1</li>
+</div>
+<div id="OptionsContainer" class="TText">
+	<button id="start" onclick="gameInit();">New Game</button>
+	<button id="st" onclick="systemtest();" style="display:none;" class="disabled">I'm ready, dismantle the mines!</button>
+	<br>Mines:<span id="mines"></span>
+</div>
+<div id="containerDiv">
+</div>
+<div class="modal TText" style="opacity:0;text-align:center;z-index:-999;" id="result" onclick="this.style.opacity='0';this.style.zIndex='-999';">
+</div>
+<div class="modal TText" style="opacity:0;z-index:-999;" id="help" onclick="this.style.opacity='0';this.style.zIndex='-999';">
+	<p>
+		Left click / tap and hold on untouched cell = reveal cell<br>
+		Right click / tap on untouched cell = toggle flag in cell<br>
+		Right click / tap on revealed cell = reveal surrounding cells if feasible<br>
+	</p>
+	<p>
+		In multimine mode, there might be multiple (6 max) mines in a single cell.
+		Use right click or short tap to increase flag count, left click or long tap
+		to decrease flag count. To finish a multimine game, you have to flag all cells
+		with mines correctly and click the "I'm ready, dismantle the mines!" button.
+	</p>
+</div>
+</body>
+</html>
