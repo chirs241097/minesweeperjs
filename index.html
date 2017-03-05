@@ -15,6 +15,12 @@ div#OptionsContainer
 	text-align:center;
 	margin:auto;
 }
+select
+{
+	background-color:#CCC;
+	border:1px #999 solid;
+	padding:0.5em 0.2em;
+}
 button
 {
 	border:none;
@@ -127,23 +133,23 @@ document.getElementsByTagName("head")[0].appendChild(link);
 		<li><h3>Minesweeper</h3></li>
 		<li>
 		Difficulty:
-		<select id="bsize">
+		<select id="bsize" class="TText">
 			<option value="1">Easy</option>
 			<option value="2">Normal</option>
 			<option value="3">Hard</option>
 		</select>
 		</li>
 		<li>Multimine:
-		<button id="multim" onclick="multiminetoggle();" class="off">Off</button>
+		<button id="multim" onclick="multiminetoggle();" class="off TText">Off</button>
 		</li>
 		<li>Effects:
-		<button id="efx" onclick="efxtoggle();">On</button>
+		<button id="efx" class="TText" onclick="efxtoggle();">On</button>
 		</li>
 		<li>Sounds:
-		<button id="sfx" onclick="sfxtoggle();">On</button>
+		<button id="sfx" class="TText" onclick="sfxtoggle();">On</button>
 		</li>
 		<li><a href="javascript:void(0);" onclick="document.getElementById('help').style.opacity='1';document.getElementById('help').style.zIndex='1000';">Help</a></li>
-		<li>version: 0.8.7+b1</li>
+		<li>version: 0.8.7+b3</li>
 </div>
 <div id="OptionsContainer" class="TText">
 	<button id="start" onclick="gameInit();">New Game</button>
