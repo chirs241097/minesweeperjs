@@ -86,6 +86,24 @@ div.modal
 {
 	div.modal{width:90%;min-height:60%;font-size:1.2em;}
 }
+@media all
+{
+	#panel{left:-15em;}
+}
+div{
+	-webkit-user-select:none;
+	-webkit-touch-callout:none;
+}
+div#progress{
+	position:fixed;
+	top:0;
+	left:0;
+	width:0%;
+	height:2px;
+	background-color:#47c;
+	transition:width 1s;
+	z-index:9999;
+}
 div.mine{background-color:rgba(255,192,0,0.6);}
 div.detonated{background-color:rgba(255,0,0,0.6);}
 div.flag{background-color:rgba(0,255,0,0.6);}
@@ -127,11 +145,12 @@ link.type="text/css";
 link.rel="stylesheet";
 document.getElementsByTagName("head")[0].appendChild(link);
 </script>
+<div id="progress"></div>
 <div id="panel" class="TText">
 	<ul id="panellist">
 		<li><a href="/"><h1>Chrisoft</h1></a></li>
-		<li><h3>Minesweeper</h3></li>
-		<li>
+		<li><span><h3>Minesweeper</h3></span></li>
+		<li><span>
 		Difficulty:
 		<select id="bsize" class="TText">
 			<option value="1">Easy</option>
@@ -139,17 +158,17 @@ document.getElementsByTagName("head")[0].appendChild(link);
 			<option value="3">Hard</option>
 		</select>
 		</li>
-		<li>Multimine:
-		<button id="multim" onclick="multiminetoggle();" class="off TText">Off</button>
+		<li><span>Multimine:
+		<button id="multim" onclick="multiminetoggle();" class="off TText">Off</button></span>
 		</li>
-		<li>Effects:
-		<button id="efx" class="TText" onclick="efxtoggle();">On</button>
+		<li><span>Effects:
+		<button id="efx" class="TText" onclick="efxtoggle();">On</button></span>
 		</li>
-		<li>Sounds:
-		<button id="sfx" class="TText" onclick="sfxtoggle();">On</button>
+		<li><span>Sounds:
+		<button id="sfx" class="TText" onclick="sfxtoggle();">On</button></span>
 		</li>
 		<li><a href="javascript:void(0);" onclick="document.getElementById('help').style.opacity='1';document.getElementById('help').style.zIndex='1000';">Help</a></li>
-		<li>version: 0.8.7+b3</li>
+		<li><span>version: 0.8.8</span></li>
 </div>
 <div id="OptionsContainer" class="TText">
 	<button id="start" onclick="gameInit();">New Game</button>
@@ -162,6 +181,7 @@ document.getElementsByTagName("head")[0].appendChild(link);
 </div>
 <div class="modal TText" style="opacity:0;z-index:-999;" id="help" onclick="this.style.opacity='0';this.style.zIndex='-999';">
 	<p>
+		<b>Mobile devices from Apple are not supported...<b><br>
 		Left click / tap and hold on untouched cell = reveal cell<br>
 		Right click / tap on untouched cell = toggle flag in cell<br>
 		Right click / tap on revealed cell = reveal surrounding cells if feasible<br>

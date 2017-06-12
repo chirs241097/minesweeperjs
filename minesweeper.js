@@ -1,9 +1,9 @@
 //Chris Xiong 2017
-//The MIT License
+//Expat (MIT) License
 var dimpx,dimx,dimy,cc,firstclick;
 var cell=null;
 var ismobile,effects=true,multimine=false,sfxe=true;
-var dead,st,solved,animating;
+var dead,st,solved,animating,unc;
 var dx=[-1,-1,-1, 0, 0, 1, 1, 1];
 var dy=[-1, 0, 1,-1, 1,-1, 0, 1];
 var classes=["one","two","three","four","five","six","seven","eight"];
@@ -25,6 +25,7 @@ function setupui()
 	ui.pbstt=document.getElementById('st');
 	ui.lbmns=document.getElementById('mines');
 	ui.cwctn=document.getElementById('containerDiv');
+	ui.progress=document.getElementById('progress');
 }
 function efxtoggle()
 {
@@ -40,7 +41,7 @@ function sfxtoggle()
 {
 	sfxe=!sfxe;
 	ui.pbsfx.classList.toggle('off');
-	ui.pbsfx.innerHTML=effects?"On":"Off";
+	ui.pbsfx.innerHTML=sfxe?"On":"Off";
 }
 function multiminetoggle()
 {
@@ -75,7 +76,7 @@ function playsound(s,v)
 }
 function gameInit(custx,custy,ccc)
 {
-	if((custx&&custx>40)||(custy&&custy>40)||(ccc&&custx&&custy&&(ccc>custx*custy-9)))
+	if((custx&&(custx>40||custx<3))||(custy&&(custy>40||custy<3))||(ccc&&custx&&custy&&(ccc>custx*custy-9)))
 	{console.log("Are you insane?");return;}
 	firstclick=true;dead=solved=false;for(var i=0;i<7;++i)flags[i]=cmines[i]=0;
 	ui.lbres.style.opacity="0";ui.lbres.style.zIndex="-999";animating=false;
@@ -89,7 +90,8 @@ function gameInit(custx,custy,ccc)
 	if(custx&&custy&&ccc){dimx=custx;dimy=custy;cc=ccc;}
 	if((window.innerWidth>window.innerHeight)^(dimx<dimy))
 	{var t=dimx;dimx=dimy;dimy=t;}
-	updateflags();sfx=[];
+	q=[];newqueue=[];
+	updateflags();sfx=[];unc=0;ui.progress.style.width="0%";
 	seed=Math.floor(Math.random()*2000000000);
 	if(multimine)ui.pbstt.style.display="inline-block";
 	else ui.pbstt.style.display="none";
@@ -119,7 +121,7 @@ function gameInit(custx,custy,ccc)
 		cell[i][j].style.width=(95/dimy)+"%";
 		cell[i][j].style.height=(95/dimx)+"%";
 		cell[i][j].classList.add('normal');
-		
+
 		cell[i][j].overlay=document.createElement('div');
 		cell[i][j].overlay.classList.add("overlay");
 		cell[i][j].overlay.style.top=(i*100/dimx)+'%';
@@ -129,7 +131,7 @@ function gameInit(custx,custy,ccc)
 		cell[i][j].overlay.style.opacity="0";
 		cell[i][j].overlay.style.transform="scale(2,2)";
 		if(effects)cell[i][j].overlay.classList.add("trans");
-		
+
 		cell[i][j].span=document.createElement('span');
 		cell[i][j].span.style.display="table-cell";
 		cell[i][j].span.style.fontWeight="bold";
@@ -238,6 +240,8 @@ function bfs(s)
 		cell[x][y].overlay.style.opacity="1";
 		cell[x][y].overlay.style.transform="scale(1,1)";
 		cell[x][y].overlay.classList.add("dug");
+		++unc;
+		ui.progress.style.width=100*unc/(dimx*dimy-cc)+"%";
 		if(cell[x][y].n==0)
 		{
 			for(var j=0;j<8;++j)
@@ -396,7 +400,7 @@ function t()
 	{
 		case "1":return "easy";
 		case "2":return "normal";
-		case "2":return "hard";
+		case "3":return "hard";
 	}
 }
 function showresult(w)
@@ -410,14 +414,13 @@ function showresult(w)
 	}
 	else
 	{
-		var cs=0,ccor=0,uc=0;
+		var cs=0,ccor=0;
 		for(var i=0;i<dimx;++i)for(var j=0;j<dimy;++j)
 		{
 			if(cell[i][j].s==-cell[i][j].n&&cell[i][j].n<0)ccor+=cell[i][j].s;
 			if(cell[i][j].n<0)cs-=cell[i][j].n;
-			if(cell[i][j].s==-1&&cell[i][j].n>=0)++uc;
 		}
-		ui.lbres.innerHTML="<h3>Game Over!</h3>You uncovered "+(100*uc/(dimx*dimy-cc)).toFixed(2)+
+		ui.lbres.innerHTML="<h3>Game Over!</h3>You uncovered "+(100*unc/(dimx*dimy-cc)).toFixed(2)+
 		"% of the field and located "+(100*ccor/cs).toFixed(2)+"% mines correctly.<br>Click or tap anywhere in the dialog to close it."
 	}
 }
